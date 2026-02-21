@@ -32,9 +32,10 @@ const BlogSection = () => {
     fetchPosts();
   }, []);
 
-  const getThumbnail = (html: string, fallback: string) => {
+  const getThumbnail = (fallback: string, html: string) => {
+    if (fallback) return fallback;
     const match = html.match(/<img[^>]+src="([^"]+)"/);
-    return match?.[1] || fallback || "";
+    return match?.[1] || "";
   };
 
   const getExcerpt = (html: string) => {
@@ -86,10 +87,10 @@ const BlogSection = () => {
                 rel="noopener noreferrer"
                 className="glass-card overflow-hidden flex flex-col group hover:shadow-teal hover:border-teal transition-all duration-300"
               >
-                {getThumbnail(post.description, post.thumbnail) && (
+                {getThumbnail(post.thumbnail, post.description) && (
                   <div className="h-44 overflow-hidden">
                     <img
-                      src={getThumbnail(post.description, post.thumbnail)}
+                      src={getThumbnail(post.thumbnail, post.description)}
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
